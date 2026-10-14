@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La Brasserie Stéphanoise</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="La Brasserie Stéphanoise, brasserie artisanale et indépendante à Saint-Étienne depuis 2014 : bières bio, circuit court et ateliers de brassage.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Collage « carnet de quartier » : photos posées sur un canevas de 1920 px mis à l'échelle,
+   légendes sur étiquettes pastel, pastilles-slogans. Une seule identité claire, voulue par la maquette. */
+:root{
+  --bg:#f7f5f2;        /* papier */
+  --ink:#1d2a29;       /* texte courant */
+  --teal:#00b8a0;      /* couleur de marque */
+  --teal-deep:#007f6f; /* teal lisible sur fond clair, ombres tampon */
+  --pink:#ffc9eb;
+  --cyan:#c4f1f5;
+  --yellow:#f9f8bf;
+  --peach:#ffccba;
+  --line:#e4e0d8;
+  --f-mono:"Space Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --f-sans:"Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-soft:"Fredoka", "Arial Rounded MT Bold", system-ui, sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --header-h:92px;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-sans);font-size:16px;line-height:1.55;overflow-x:hidden;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--teal);outline-offset:3px;border-radius:4px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- En-tête ---------- */
+.site-header{position:sticky;top:env(safe-area-inset-top, 0px);z-index:900;margin-inline:calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  padding-inline:max(16px, env(safe-area-inset-left, 0px));transition:background .35s var(--ease), box-shadow .35s var(--ease)}
+.site-header.is-scrolled{background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line)}
+.header-in{max-width:1920px;margin-inline:auto;display:flex;align-items:center;justify-content:space-between;gap:24px;
+  padding-inline:clamp(0px, 5vw, 120px);height:var(--header-h);transition:height .35s var(--ease)}
+.is-scrolled .header-in{height:66px}
+.brand{display:block;width:clamp(150px, 11vw, 210px);transition:width .35s var(--ease), transform .3s var(--ease)}
+.is-scrolled .brand{width:150px}
+.brand:hover{transform:rotate(-2deg) scale(1.03)}
+.brand img{width:100%;height:auto}
+.nav{display:flex;align-items:center;gap:clamp(18px, 3.4vw, 76px);list-style:none;margin:0;padding:0}
+.nav a{font-family:var(--f-mono);font-size:15px;color:var(--teal-deep);text-decoration:none;position:relative;padding:4px 6px;border-radius:3px;
+  background:linear-gradient(var(--hl, var(--yellow)),var(--hl, var(--yellow))) left/0% 100% no-repeat;transition:background-size .35s var(--ease)}
+.nav a:hover,.nav a:focus-visible{background-size:100% 100%}
+.nav li:nth-child(1) a{--hl:var(--yellow)}.nav li:nth-child(2) a{--hl:var(--pink)}.nav li:nth-child(3) a{--hl:var(--cyan)}.nav li:nth-child(4) a{--hl:var(--peach)}
+.nav a[aria-current="page"]{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1.5px}
+.nav .btn-shop{border:1.5px solid var(--teal-deep);border-radius:999px;padding:7px 16px;background:transparent;box-shadow:0 0 0 var(--teal-deep);
+  transition:transform .2s var(--ease), box-shadow .2s var(--ease), background .2s, color .2s}
+.nav .btn-shop:hover,.nav .btn-shop:focus-visible{background:var(--teal);color:#fff;border-color:var(--teal);transform:translate(-3px,-3px);box-shadow:3px 3px 0 var(--teal-deep)}
+.burger{display:none;width:48px;height:48px;border:0;border-radius:50%;background:var(--pink);cursor:pointer;position:relative}
+.burger span{position:absolute;left:14px;right:14px;height:2px;background:var(--teal-deep);transition:transform .3s var(--ease), top .3s var(--ease)}
+.burger span:nth-child(1){top:19px}.burger span:nth-child(2){top:27px}
+.menu-open .burger span:nth-child(1){top:23px;transform:rotate(45deg)}
+.menu-open .burger span:nth-child(2){top:23px;transform:rotate(-45deg)}
+.mobile-menu{position:fixed;inset:0;z-index:850;background:var(--bg);display:flex;flex-direction:column;justify-content:center;gap:18px;
+  padding:calc(var(--header-h) + env(safe-area-inset-top, 0px)) max(24px, env(safe-area-inset-right, 0px)) calc(40px + env(safe-area-inset-bottom, 0px)) max(24px, env(safe-area-inset-left, 0px));
+  clip-path:circle(0% at calc(100% - 40px) 46px);transition:clip-path .55s var(--ease);visibility:hidden}
+.menu-open .mobile-menu{clip-path:circle(150% at calc(100% - 40px) 46px);visibility:visible}
+.mobile-menu a{align-self:flex-start;font-family:var(--f-soft);font-weight:600;text-transform:uppercase;font-size:clamp(24px, 7vw, 40px);line-height:1.05;
+  color:var(--teal-deep);text-decoration:none;padding:8px 16px;border-radius:12px;background:var(--c);transform:rotate(var(--r));
+  opacity:0;translate:0 20px;transition:opacity .4s var(--ease), translate .4s var(--ease)}
+.menu-open .mobile-menu a{opacity:1;translate:0 0}
+.mobile-menu a:nth-child(1){--c:var(--yellow);--r:-2deg;transition-delay:.10s}
+.mobile-menu a:nth-child(2){--c:var(--pink);--r:1.5deg;transition-delay:.15s}
+.mobile-menu a:nth-child(3){--c:var(--cyan);--r:-1deg;transition-delay:.20s}
+.mobile-menu a:nth-child(4){--c:var(--peach);--r:2deg;transition-delay:.25s}
+.mobile-menu a:nth-child(5){--c:var(--teal);--r:-1.5deg;color:#fff;transition-delay:.30s}
+.mobile-menu p{font-family:var(--f-mono);font-size:13px;color:var(--teal-deep);margin:24px 0 0}
+
+/* ---------- Collage ---------- */
+.collage{container-type:inline-size;max-width:1920px;margin-inline:auto;margin-top:max(calc(-1 * var(--header-h)), calc(16px - (100vw - 32px) * 181 / 1920))}
+.collage-in{--u:calc(100cqw / 1920);position:relative;height:calc(11380 * var(--u))}
+.item{position:absolute;left:calc(var(--x) * var(--u));top:calc(var(--y) * var(--u));width:calc(var(--w) * var(--u));margin:0;
+  transform:translate3d(var(--dx, 0px), calc(var(--dy, 0px) + var(--py, 0px)), 0);
+  transition:opacity .8s var(--ease), translate .8s var(--ease)}
+.item:hover,.item:focus-within{z-index:400 !important}
+.frame{position:relative;aspect-ratio:var(--ar);overflow:hidden;cursor:zoom-in;background:var(--line);
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease)}
+.frame img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease), filter .5s}
+.photo:nth-child(odd){--tilt:-.7deg}.photo:nth-child(even){--tilt:.7deg}
+.photo:hover .frame,.photo .frame:focus-visible{transform:translateY(-6px) rotate(var(--tilt));box-shadow:0 22px 40px -20px rgba(29,42,41,.55)}
+.photo:hover .frame img{transform:scale(1.035);filter:saturate(1.12) contrast(1.03)}
+.label{position:absolute;left:calc(var(--lx) * var(--u));top:calc(var(--ly) * var(--u));width:max(calc(var(--lw) * var(--u)), 10.5em);
+  font-family:var(--f-mono);font-size:max(10.5px, calc(12.5 * var(--u)));line-height:1.35;color:var(--teal-deep);padding:.45em .7em;
+  transition:transform .45s var(--ease);transform-origin:left center}
+.photo:hover .label{transform:translate(4px,-3px) rotate(-2.5deg)}
+
+/* Diaporama de tête */
+.hero .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease, transform .9s var(--ease), filter .5s}
+.hero .slide.is-on{opacity:1}
+.hero-bar{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:10px;padding:10px 12px;
+  background:linear-gradient(transparent, rgba(0,0,0,.35));color:#fff;font-family:var(--f-mono);font-size:12px;opacity:0;transition:opacity .3s}
+.hero:hover .hero-bar,.hero .frame:focus-visible .hero-bar{opacity:1}
+.hero-progress{flex:1;height:2px;background:rgba(255,255,255,.35)}
+.hero-progress i{display:block;height:100%;width:0;background:#fff}
+.no-slideshow .hero-bar{display:none}
+
+/* Pile Parc de Couriot */
+.stack .frame{overflow:visible;background:none;cursor:pointer}
+.stack .frame img{position:absolute;inset:0;box-shadow:0 10px 24px -14px rgba(29,42,41,.5);transition:transform .6s var(--ease)}
+.stack .frame img:nth-child(1){z-index:4}.stack .frame img:nth-child(2){z-index:3;transform:rotate(3deg)}
+.stack .frame img:nth-child(3){z-index:2;transform:rotate(-4deg)}.stack .frame img:nth-child(4){z-index:1;transform:rotate(6deg)}
+.stack:hover .frame{transform:none;box-shadow:none}
+.stack:hover .frame img:nth-child(1){transform:rotate(-3deg) translate(-6%, -2%)}
+.stack:hover .frame img:nth-child(2){transform:rotate(5deg) translate(14%, 2%)}
+.stack:hover .frame img:nth-child(3){transform:rotate(-9deg) translate(-16%, 5%)}
+.stack:hover .frame img:nth-child(4){transform:rotate(12deg) translate(26%, 6%)}
+.stack-hint{position:absolute;z-index:6;left:50%;top:-14px;translate:-50% 0;white-space:nowrap;font-family:var(--f-mono);font-size:12px;background:var(--teal);color:#fff;padding:4px 10px;border-radius:999px;opacity:0;transition:opacity .3s}
+.stack:hover .stack-hint{opacity:1}
+
+.croquis img{mix-blend-mode:multiply;transition:transform .5s var(--ease)}
+.croquis:hover img{transform:rotate(-2deg) scale(1.06)}
+.biscotos img{filter:drop-shadow(0 8px 14px rgba(29,42,41,.25));transition:transform 1.2s var(--ease)}
+.biscotos:hover img{transform:rotate(360deg)}
+
+/* Pastilles */
+.sticker{display:block;height:calc(var(--h) * var(--u));text-decoration:none;cursor:pointer;touch-action:none}
+.sk-in{position:absolute;inset:0;display:grid;place-items:center;animation:float 7s ease-in-out infinite alternate;animation-delay:var(--delay, 0s)}
+.sk-shape{position:absolute;background:var(--sk);transform:rotate(var(--rs));transition:transform .4s var(--ease), box-shadow .4s var(--ease)}
+.sticker--circle .sk-shape{inset:0;border-radius:50%}
+.sticker--ellipse .sk-shape{inset:6% 3%;border-radius:50%}
+.sticker--rect .sk-shape{inset:12% 6%;border-radius:calc(22 * var(--u))}
+.sticker--diamond .sk-shape{inset:16%;border-radius:calc(26 * var(--u))}
+.sk-text{position:relative;font-family:var(--f-soft);font-weight:600;text-transform:uppercase;text-align:center;color:var(--teal);
+  font-size:calc(34 * var(--u));line-height:1.04;letter-spacing:.01em;transform:rotate(var(--rt));text-wrap:balance}
+.sk-hint{position:absolute;left:50%;bottom:-6px;translate:-50% 100%;white-space:nowrap;font-family:var(--f-mono);font-size:max(11px, calc(13 * var(--u)));
+  color:var(--teal-deep);background:#fff;border:1.5px solid var(--teal-deep);border-radius:999px;padding:3px 10px;opacity:0;transition:opacity .25s, translate .3s var(--ease)}
+.sticker:hover .sk-in,.sticker:focus-visible .sk-in{animation:wobble .7s var(--ease)}
+.sticker:hover .sk-shape,.sticker:focus-visible .sk-shape{transform:rotate(var(--rs)) scale(1.07);box-shadow:6px 8px 0 color-mix(in srgb, var(--teal-deep) 30%, transparent)}
+.sticker:hover .sk-hint,.sticker:focus-visible .sk-hint{opacity:1;translate:-50% calc(100% + 4px)}
+.sticker.is-dragging{cursor:grabbing}
+.sticker.is-dragging .sk-in{animation:none;transform:scale(1.1) rotate(-3deg)}
+.drag-on .sticker{cursor:grab}
+.sticker:nth-of-type(2n){--delay:-2s}.sticker:nth-of-type(3n){--delay:-4.5s}
+@keyframes float{from{transform:translateY(-5px) rotate(-1.2deg)}to{transform:translateY(6px) rotate(1.2deg)}}
+@keyframes wobble{0%{transform:scale(1)}30%{transform:scale(1.08) rotate(-5deg)}55%{transform:scale(.97) rotate(4deg)}80%{transform:scale(1.03) rotate(-2deg)}100%{transform:scale(1)}}
+.no-float .sk-in{animation:none}
+
+/* Apparition au défilement */
+.reveal-on .item.is-hidden{opacity:0;translate:0 60px}
+
+/* ---------- La brasserie en bref ---------- */
+.intro{max-width:1680px;margin:clamp(40px, 6vw, 110px) auto 0;display:grid;grid-template-columns:minmax(0, 1.2fr) minmax(0, 1fr);gap:clamp(32px, 6vw, 120px);
+  padding-inline:clamp(0px, 4vw, 80px);align-items:start}
+.eyebrow{font-family:var(--f-mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-deep);display:inline-block;background:var(--cyan);padding:4px 10px}
+.intro h2{font-family:var(--f-soft);font-weight:600;text-transform:uppercase;color:var(--teal);font-size:clamp(34px, 4.4vw, 68px);line-height:1;margin:18px 0 22px;text-wrap:balance}
+.intro p{font-size:clamp(17px, 1.3vw, 20px);max-width:58ch;margin:0 0 16px}
+.ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+.btn{font-family:var(--f-mono);font-weight:700;font-size:15px;text-decoration:none;border-radius:999px;padding:14px 24px;display:inline-flex;align-items:center;gap:10px;
+  border:2px solid var(--teal-deep);transition:transform .2s var(--ease), box-shadow .2s var(--ease), background .2s, color .2s;cursor:pointer}
+.btn-primary{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:4px 4px 0 var(--teal-deep)}
+.btn-primary:hover,.btn-primary:focus-visible{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--teal-deep)}
+.btn-primary:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--teal-deep)}
+.btn-ghost{background:transparent;color:var(--teal-deep)}
+.btn-ghost:hover,.btn-ghost:focus-visible{background:var(--pink)}
+.btn .arr{transition:transform .25s var(--ease)}
+.btn:hover .arr{transform:translateX(4px)}
+.facts{display:grid;gap:18px;list-style:none;margin:0;padding:0}
+.facts li{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;border-top:1.5px dashed var(--teal);padding-top:18px}
+.facts b{font-family:var(--f-soft);font-weight:600;color:var(--teal);font-size:clamp(34px, 3.4vw, 54px);line-height:1;min-width:3.2ch;font-variant-numeric:tabular-nums}
+.facts span{font-family:var(--f-mono);font-size:14px;color:var(--teal-deep)}
+
+/* ---------- Pied de page ---------- */
+.site-footer{margin:clamp(60px, 8vw, 140px) calc(-1 * max(16px, env(safe-area-inset-right, 0px))) 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  background:var(--teal);color:#fff;padding:clamp(48px, 6vw, 90px) max(16px, env(safe-area-inset-right, 0px)) calc(28px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  border-radius:clamp(24px, 4vw, 60px) clamp(24px, 4vw, 60px) 0 0}
+.footer-in{max-width:1680px;margin-inline:auto;padding-inline:clamp(0px, 4vw, 80px);display:grid;grid-template-columns:1.3fr 1fr 1fr 1.4fr;gap:clamp(28px, 4vw, 64px)}
+.footer-in > div{min-width:0}
+.site-footer h3{font-family:var(--f-mono);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin:0 0 14px;color:var(--yellow)}
+.site-footer p,.site-footer address{font-style:normal;font-size:16px;margin:0 0 8px}
+.site-footer .logo-w{width:220px;margin-bottom:18px}
+.todo{display:inline-block;font-family:var(--f-mono);font-size:12px;border:1.5px dashed rgba(255,255,255,.8);border-radius:6px;padding:2px 8px}
+.copy{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:0;color:#fff;font:inherit;font-family:var(--f-mono);font-size:14px;
+  padding:8px 12px;border-radius:8px;cursor:pointer;transition:background .2s;max-width:100%;overflow-wrap:anywhere;text-align:left}
+.copy:hover{background:rgba(255,255,255,.26)}
+.socials{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.socials button{font-family:var(--f-mono);font-size:14px;color:var(--teal-deep);background:var(--yellow);border:0;border-radius:999px;padding:8px 14px;cursor:pointer;transition:transform .2s var(--ease)}
+.socials button:nth-child(2){background:var(--pink)}
+.socials button:hover{transform:rotate(-4deg) scale(1.06)}
+.news form{display:flex;gap:8px;flex-wrap:wrap}
+.news label{display:block;font-size:15px;margin-bottom:10px}
+.news input{flex:1 1 180px;min-width:0;font:inherit;font-family:var(--f-mono);font-size:14px;padding:12px 14px;border-radius:999px;border:2px solid #fff;background:transparent;color:#fff}
+.news input::placeholder{color:rgba(255,255,255,.75)}
+.news button{font-family:var(--f-mono);font-weight:700;font-size:14px;padding:12px 18px;border-radius:999px;border:2px solid #fff;background:#fff;color:var(--teal-deep);cursor:pointer;transition:transform .2s var(--ease), box-shadow .2s}
+.news button:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--teal-deep)}
+.news .msg{font-family:var(--f-mono);font-size:13px;margin-top:10px;min-height:1.4em}
+.footer-bottom{max-width:1680px;margin:clamp(40px, 5vw, 70px) auto 0;padding:18px clamp(0px, 4vw, 80px) 0;border-top:1px solid rgba(255,255,255,.35);
+  display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;font-family:var(--f-mono);font-size:12.5px}
+.footer-bottom nav{display:flex;flex-wrap:wrap;gap:8px 20px}
+.footer-bottom a{text-decoration:none;opacity:.9}
+.footer-bottom a:hover{text-decoration:underline;opacity:1}
+
+/* ---------- Outils flottants ---------- */
+.cursor{position:fixed;left:0;top:0;z-index:1000;width:86px;height:86px;margin:-43px 0 0 -43px;border-radius:50%;background:var(--pink);color:var(--teal-deep);
+  display:grid;place-items:center;font-family:var(--f-soft);font-weight:600;text-transform:uppercase;font-size:15px;pointer-events:none;
+  transform:translate3d(var(--cx, -200px), var(--cy, -200px), 0) scale(0);transition:transform .25s var(--ease)}
+.cursor.is-on{transform:translate3d(var(--cx), var(--cy), 0) scale(1)}
+.has-cursor .frame{cursor:none}
+.to-top{position:fixed;z-index:800;right:calc(20px + env(safe-area-inset-right, 0px));bottom:calc(20px + env(safe-area-inset-bottom, 0px));width:58px;height:58px;border-radius:50%;
+  border:0;background:var(--yellow);color:var(--teal-deep);font-family:var(--f-soft);font-weight:600;font-size:13px;line-height:1;cursor:pointer;box-shadow:3px 3px 0 var(--teal-deep);
+  opacity:0;translate:0 20px;pointer-events:none;transition:opacity .3s, translate .3s var(--ease), transform .2s}
+.to-top.is-on{opacity:1;translate:0 0;pointer-events:auto}
+.to-top:hover{transform:rotate(-10deg) scale(1.06)}
+.toast{position:fixed;z-index:1100;left:50%;bottom:calc(24px + env(safe-area-inset-bottom, 0px));translate:-50% 30px;opacity:0;pointer-events:none;max-width:calc(100vw - 32px);
+  background:var(--ink);color:#fff;font-family:var(--f-mono);font-size:13.5px;padding:12px 18px;border-radius:999px;transition:opacity .3s, translate .3s var(--ease)}
+.toast.is-on{opacity:1;translate:-50% 0}
+
+/* Panneau de propositions */
+.demo-btn{position:fixed;z-index:950;left:calc(20px + env(safe-area-inset-left, 0px));bottom:calc(20px + env(safe-area-inset-bottom, 0px));
+  font-family:var(--f-soft);font-weight:600;text-transform:uppercase;font-size:14px;color:var(--teal-deep);background:var(--pink);border:2px solid var(--teal-deep);
+  border-radius:999px;padding:10px 18px;cursor:pointer;box-shadow:3px 3px 0 var(--teal-deep);transition:transform .2s var(--ease)}
+.demo-btn:hover{transform:translate(-2px,-2px)}
+.demo-panel{position:fixed;z-index:960;left:calc(20px + env(safe-area-inset-left, 0px));bottom:calc(78px + env(safe-area-inset-bottom, 0px));width:min(380px, calc(100vw - 40px));
+  max-height:calc(100vh - 120px);overflow:auto;background:#fff;border:2px solid var(--teal-deep);border-radius:18px;padding:20px;box-shadow:6px 6px 0 var(--teal-deep)}
+.demo-panel h2{font-family:var(--f-soft);font-weight:600;text-transform:uppercase;color:var(--teal);font-size:22px;margin:0 0 4px}
+.demo-panel > p{font-size:14px;margin:0 0 14px;color:#4b5755}
+.opt{display:grid;grid-template-columns:1fr auto;gap:2px 14px;padding:12px 0;border-top:1px solid var(--line);align-items:center}
+.opt label{font-weight:700;font-size:15px;cursor:pointer}
+.opt small{grid-column:1;font-size:13px;color:#5b6664;line-height:1.4}
+.switch{grid-row:1 / span 2;grid-column:2;appearance:none;-webkit-appearance:none;width:46px;height:26px;border-radius:999px;background:#cfd6d4;position:relative;cursor:pointer;transition:background .2s;margin:0}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s var(--ease)}
+.switch:checked{background:var(--teal)}
+.switch:checked::after{transform:translateX(20px)}
+.demo-panel .note{font-family:var(--f-mono);font-size:12px;background:var(--yellow);padding:10px 12px;border-radius:8px;margin:12px 0 0;color:var(--teal-deep)}
+
+/* Visionneuse */
+.lightbox{position:fixed;inset:0;z-index:1050;background:color-mix(in srgb, var(--bg) 96%, transparent);display:grid;grid-template-rows:1fr auto;place-items:center;
+  padding:calc(20px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  opacity:0;pointer-events:none;transition:opacity .3s}
+.lightbox.is-on{opacity:1;pointer-events:auto}
+.lb-img{max-width:min(1200px, 100%);max-height:calc(100vh - 150px);width:auto;height:auto;object-fit:contain;box-shadow:0 30px 60px -30px rgba(29,42,41,.6);
+  transform:scale(.96);transition:transform .35s var(--ease), opacity .25s}
+.lightbox.is-on .lb-img{transform:scale(1)}
+.lb-meta{display:flex;align-items:center;gap:14px;margin-top:16px;font-family:var(--f-mono);font-size:13px;color:var(--teal-deep);flex-wrap:wrap;justify-content:center}
+.lb-cap{background:var(--cyan);padding:5px 10px}
+.lb-btn{position:absolute;width:54px;height:54px;border-radius:50%;border:2px solid var(--teal-deep);background:#fff;color:var(--teal-deep);font-size:22px;cursor:pointer;
+  display:grid;place-items:center;transition:background .2s, transform .2s var(--ease)}
+.lb-btn:hover{background:var(--pink);transform:scale(1.08)}
+.lb-close{top:calc(18px + env(safe-area-inset-top, 0px));right:calc(18px + env(safe-area-inset-right, 0px))}
+.lb-prev{left:calc(18px + env(safe-area-inset-left, 0px));top:50%;margin-top:-27px}
+.lb-next{right:calc(18px + env(safe-area-inset-right, 0px));top:50%;margin-top:-27px}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 899px){
+  :root{--header-h:72px}
+  .nav{display:none}
+  .burger{display:block;z-index:2}
+  .brand{width:150px}
+  .collage{margin-top:8px}
+  .collage-in{height:auto;display:flex;flex-direction:column;gap:34px;padding-bottom:20px}
+  .item{position:relative;left:auto;top:auto;width:calc(var(--mw) * 1%);transform:none !important;align-self:center}
+  .item[data-align="l"]{align-self:flex-start}
+  .item[data-align="r"]{align-self:flex-end}
+  .label{position:relative;left:auto;top:auto;width:fit-content;max-width:86%;margin:-12px 0 0 12px;font-size:11.5px}
+  .item[data-align="r"] .label{margin-left:auto;margin-right:12px}
+  .sticker{--u:calc(min(62vw, 300px) / var(--w));margin-block:-70px -20px;z-index:300 !important}
+  .sticker[data-align="r"]{margin-right:-6px}
+  .sticker[data-align="l"]{margin-left:-6px}
+  .sk-text{font-size:calc(36 * var(--u))}
+  .hero{width:100%}
+  .hero .label{margin-top:8px}
+  .menu-open .demo-btn,.menu-open .to-top,.menu-open .demo-panel{display:none}
+  .hero .hero-bar{opacity:1}
+  .biscotos{margin-block:-60px -10px;z-index:320 !important}
+  .stack{margin-right:12%}
+  .stack-hint{opacity:1}
+  .intro{grid-template-columns:1fr}
+  .footer-in{grid-template-columns:1fr 1fr}
+  .lb-prev,.lb-next{top:auto;bottom:calc(16px + env(safe-area-inset-bottom, 0px));margin-top:0}
+  .lb-img{max-height:calc(100vh - 210px)}
+  .lightbox{padding-bottom:calc(90px + env(safe-area-inset-bottom, 0px))}
+  .demo-btn{font-size:12px;padding:8px 14px}
+}
+@media (max-width: 560px){ .footer-in{grid-template-columns:1fr} }
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" id="top">
+  <div class="header-in">
+    <a class="brand" href="#top" aria-label="La Brasserie Stéphanoise, accueil"><img src="img/logo.png" width="275" height="70" alt="La Brasserie Stéphanoise"></a>
+    <nav aria-label="Navigation principale">
+      <ul class="nav">
+        <li><a href="#top" aria-current="page">La Brasserie</a></li>
+        <li><a href="#" data-page="Les bières">Les bières</a></li>
+        <li><a href="#" data-page="Les services">Les services</a></li>
+        <li><a href="#" data-page="Ateliers de brassage">Ateliers de brassage</a></li>
+        <li><a href="#" class="btn-shop" data-page="Contact/Boutique">Contact/Boutique</a></li>
+      </ul>
+    </nav>
+    <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button>
+  </div>
+</header>
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <a href="#top">La Brasserie</a>
+  <a href="#" data-page="Les bières">Les bières</a>
+  <a href="#" data-page="Les services">Les services</a>
+  <a href="#" data-page="Ateliers de brassage">Ateliers de brassage</a>
+  <a href="#" data-page="Contact/Boutique">Contact / Boutique</a>
+  <p>15 rue Buffon, Saint-Étienne</p>
+</div>
+
+<main>
+  <h1 class="sr-only">La Brasserie Stéphanoise, bière artisanale, indépendante et locale à Saint-Étienne</h1>
+  <section class="collage" aria-label="La brasserie en images">
+    <div class="collage-in" id="collage">
+<figure class="item photo hero" data-align="c" data-speed="0" style="--x:1132;--y:181;--w:641;--mw:100;z-index:88;--ar:641/952"><div class="frame" tabindex="0" role="button" aria-label="Agrandir la photo"><img src="img/p88.jpg" alt="Photo de la brasserie 1 sur 15" class="slide is-on" width="641" height="952"><img src="img/p76.jpg" alt="Photo de la brasserie 2 sur 15" class="slide" loading="lazy" width="641" height="952"><img src="img/p77.jpg" alt="Photo de la brasserie 3 sur 15" class="slide" loading="lazy" width="641" height="952"><img src="img/p78.jpg" alt="Photo de la brasserie 4 sur 15" class="slide" loading="lazy" width="641" height="952"><img src="img/p79.jpg" alt="Photo de la brasserie 5 sur 15" class="slide" loading="lazy" width="641" height="952"><img src="img/p80.jpg" alt="Photo de la brasserie 6 sur 15" class="slide" loading="lazy" width="641" height="952"><img src="img/p81.jpg" alt="Photo de la brasserie 7 sur 15" class="slide" loading="lazy" width="641" height="952"><img src="img/p82.jpg" alt="Photo de la brasserie 8 sur 15" class="slide" loading="lazy" width="641" height="952"><img src="img/p83.jpg" alt="Photo de la brasserie 9 sur 15" class="slide" loading="lazy" width="641" height="952"><img src="img/p84.jpg" alt="Photo de la brasserie 10 sur 15" class="slide" loading="lazy" width="641" height="952"><img src="img/p86.jpg" alt="Photo de la brasserie 11 sur 15" class="slide" loading="lazy" width="641" height="952"><img src="img/p87.jpg" alt="Photo de la brasserie 12 sur 15" class="slide" loading="lazy" width="641" height="952"><img src="img/p91.jpg" alt="Photo de la brasserie 13 sur 15" class="slide" loading="lazy" width="641" height="952"><img src="img/p92.jpg" alt="Photo de la brasserie 14 sur 15" class="slide" loading="lazy" width="641" height="952"><img src="img/p93.jpg" alt="Photo de la brasserie 15 sur 15" class="slide" loading="lazy" width="641" height="952"><div class="hero-bar"><span class="hero-count">01 / 15</span><span class="hero-progress"><i></i></span></div></div><figcaption class="label" style="--lx:0;--ly:968;--lw:222;background:var(--peach)">Cuisine du Bistrot de Sainté, Place Jean Jaurès</figcaption></figure>
+<a href="#" class="item sticker sticker--circle" data-page="Les bières" data-speed="-0.1" data-align="r" style="--x:971;--y:384;--w:380;--mw:100;z-index:300;--h:380;--rs:0deg;--rt:14deg;--sk:var(--pink)" aria-label="Bière artisanale indépendante locale — aller à la page Les bières"><span class="sk-in"><span class="sk-shape"></span><span class="sk-text">Bière<br>artisanale<br>indépendante<br>locale</span></span><span class="sk-hint">→ Les bières</span></a>
+<figure class="item photo" data-align="l" data-speed="0.03" style="--x:74;--y:191;--w:515;--mw:74;z-index:75;--ar:515/410"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Fête du 1er mai, Amicale Laïque du Crêt de Roch"><img src="img/p75.jpg" width="515" height="410" alt="Fête du 1er mai, Amicale Laïque du Crêt de Roch" fetchpriority="high"></div><figcaption class="label" style="--lx:499;--ly:82;--lw:149;background:var(--yellow)">Fête du 1er mai, Amicale Laïque du Crêt de Roch</figcaption></figure>
+<figure class="item photo" data-align="r" data-speed="0" style="--x:134;--y:565;--w:809;--mw:92;z-index:94;--ar:809/538"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : 10 ans de la brasserie, 15 rue Buffon"><img src="img/p94.jpg" width="809" height="538" alt="10 ans de la brasserie, 15 rue Buffon" fetchpriority="high"></div><figcaption class="label" style="--lx:624;--ly:553;--lw:185;background:var(--cyan)">10 ans de la brasserie, 15 rue Buffon</figcaption></figure>
+<figure class="item photo" data-align="l" data-speed="-0.02" style="--x:432;--y:1259;--w:576;--mw:70;z-index:71;--ar:576/384"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Révision des tireuses, 15 rue Buffon"><img src="img/p71.jpg" width="576" height="384" alt="Révision des tireuses, 15 rue Buffon" fetchpriority="high"></div><figcaption class="label" style="--lx:405;--ly:400;--lw:173;background:var(--pink)">Révision des tireuses, 15 rue Buffon</figcaption></figure>
+<a href="#" class="item sticker sticker--rect" data-page="La Brasserie" data-speed="-0.08" data-align="r" style="--x:360;--y:1828;--w:355;--mw:100;z-index:300;--h:269;--rs:-12deg;--rt:-12deg;--sk:var(--peach)" aria-label="Née et calée dans Sainté depuis 2014 — aller à la page La Brasserie"><span class="sk-in"><span class="sk-shape"></span><span class="sk-text">Née et calée<br>dans Sainté<br>depuis 2014</span></span><span class="sk-hint">→ La Brasserie</span></a>
+<figure class="item photo" data-align="r" data-speed="0.03" style="--x:1214;--y:1488;--w:416;--mw:66;z-index:73;--ar:416/624"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Cuisine du Bistrot de Sainté, Place Jean Jaurès"><img src="img/p73.jpg" width="416" height="624" alt="Cuisine du Bistrot de Sainté, Place Jean Jaurès" loading="lazy" decoding="async"></div><figcaption class="label" style="--lx:404;--ly:292;--lw:121;background:var(--yellow)">Cuisine du Bistrot de Sainté, Place Jean Jaurès</figcaption></figure>
+<figure class="item photo" data-align="l" data-speed="0" style="--x:137;--y:1596;--w:381;--mw:62;z-index:51;--ar:381/578"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : L’Entre Pots Café, Place Jules Guesde"><img src="img/p51.jpg" width="381" height="578" alt="L’Entre Pots Café, Place Jules Guesde" loading="lazy" decoding="async"></div><figcaption class="label" style="--lx:-11;--ly:595;--lw:146;background:var(--cyan)">L’Entre Pots Café, Place Jules Guesde</figcaption></figure>
+<figure class="item photo stack" data-align="r" data-speed="0" style="--x:138;--y:2350;--w:326;--mw:60;z-index:72;--ar:326/489"><div class="frame" tabindex="0" role="button" aria-label="Feuilleter les photos du parc de Couriot"><img src="img/p72.jpg" width="326" height="489" alt="Parc de Couriot, photo 1" loading="lazy" decoding="async"><img src="img/p45.jpg" width="325" height="487" alt="Parc de Couriot, photo 2" loading="lazy" decoding="async"><img src="img/p46.jpg" width="325" height="487" alt="Parc de Couriot, photo 3" loading="lazy" decoding="async"><img src="img/p47.jpg" width="325" height="487" alt="Parc de Couriot, photo 4" loading="lazy" decoding="async"><span class="stack-hint">Cliquez pour feuilleter</span></div><figcaption class="label" style="--lx:-8;--ly:507;--lw:117;background:var(--pink)">Parc de Couriot</figcaption></figure>
+<figure class="item photo" data-align="c" data-speed="0" style="--x:737;--y:2033;--w:1181;--mw:100;z-index:60;--ar:1181/787"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Livraison de fûts, Place Jean Jaurès"><img src="img/p60.jpg" width="1181" height="787" alt="Livraison de fûts, Place Jean Jaurès" loading="lazy" decoding="async"></div><figcaption class="label" style="--lx:-4;--ly:803;--lw:148;background:var(--peach)">Livraison de fûts, Place Jean Jaurès</figcaption></figure>
+<figure class="item croquis" data-align="r" data-speed="0.05" style="--x:1028;--y:2958;--w:488;--mw:72;z-index:109;--ar:488/268"><img src="img/croquis.jpg" width="488" height="268" alt="Planning de brassage dessiné à la main" loading="lazy"></figure>
+<figure class="item photo" data-align="l" data-speed="0" style="--x:0;--y:2983;--w:923;--mw:94;z-index:50;--ar:923/619"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Cinéma Le Méliès, Place Jean Jaurès"><img src="img/p50.jpg" width="923" height="619" alt="Cinéma Le Méliès, Place Jean Jaurès" loading="lazy" decoding="async"></div><figcaption class="label" style="--lx:783;--ly:638;--lw:144;background:var(--yellow)">Cinéma Le Méliès, Place Jean Jaurès</figcaption></figure>
+<a href="#" class="item sticker sticker--ellipse" data-page="Les services" data-speed="-0.1" data-align="l" style="--x:1427;--y:3248;--w:418;--mw:100;z-index:300;--h:337;--rs:-18deg;--rt:-18deg;--sk:var(--yellow)" aria-label="Une brasserie développée en circuit court — aller à la page Les services"><span class="sk-in"><span class="sk-shape"></span><span class="sk-text">Une brasserie<br>développée en<br>circuit court</span></span><span class="sk-hint">→ Les services</span></a>
+<figure class="item photo" data-align="r" data-speed="0.03" style="--x:1149;--y:3384;--w:413;--mw:64;z-index:61;--ar:413/619"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Terrasse du Bistrot de Sainté, Place Jean Jaurès"><img src="img/p61.jpg" width="413" height="619" alt="Terrasse du Bistrot de Sainté, Place Jean Jaurès" loading="lazy" decoding="async"></div><figcaption class="label" style="--lx:-6;--ly:640;--lw:221;background:var(--cyan)">Terrasse du Bistrot de Sainté, Place Jean Jaurès</figcaption></figure>
+<figure class="item photo" data-align="l" data-speed="0" style="--x:136;--y:3737;--w:754;--mw:84;z-index:59;--ar:754/1131"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : AMAP des Pères Peinards, Place Jules Guesde"><img src="img/p59.jpg" width="754" height="1131" alt="AMAP des Pères Peinards, Place Jules Guesde" loading="lazy" decoding="async"></div><figcaption class="label" style="--lx:568;--ly:1148;--lw:189;background:var(--yellow)">AMAP des Pères Peinards, Place Jules Guesde</figcaption></figure>
+<a href="#" class="item sticker sticker--diamond" data-page="Les bières" data-speed="-0.07" data-align="r" style="--x:623;--y:4188;--w:403;--mw:100;z-index:300;--h:403;--rs:-32deg;--rt:0deg;--sk:var(--pink)" aria-label="Des bières bio, des ingrédients français à 98 % — aller à la page Les bières"><span class="sk-in"><span class="sk-shape"></span><span class="sk-text">Des<br>bières bio,<br>des ingrédients<br>français<br>à 98 %</span></span><span class="sk-hint">→ Les bières</span></a>
+<figure class="item photo" data-align="r" data-speed="-0.02" style="--x:1129;--y:4206;--w:619;--mw:78;z-index:55;--ar:619/412"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : 10 ans de la brasserie, 15 rue Buffon"><img src="img/p55.jpg" width="619" height="412" alt="10 ans de la brasserie, 15 rue Buffon" loading="lazy" decoding="async"></div><figcaption class="label" style="--lx:-9;--ly:432;--lw:179;background:var(--pink)">10 ans de la brasserie, 15 rue Buffon</figcaption></figure>
+<figure class="item photo" data-align="l" data-speed="0.02" style="--x:1248;--y:4795;--w:563;--mw:72;z-index:56;--ar:563/375"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Session d’étiquetage de la Manu, 15 rue Buffon"><img src="img/p56.jpg" width="563" height="375" alt="Session d’étiquetage de la Manu, 15 rue Buffon" loading="lazy" decoding="async"></div><figcaption class="label" style="--lx:-11;--ly:390;--lw:237;background:var(--peach)">Session d’étiquetage de la Manu, 15 rue Buffon</figcaption></figure>
+<figure class="item photo" data-align="r" data-speed="0" style="--x:438;--y:5036;--w:530;--mw:70;z-index:58;--ar:530/687"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Bistrot de Sainté, Place Jean Jaurès"><img src="img/p58.jpg" width="530" height="687" alt="Bistrot de Sainté, Place Jean Jaurès" loading="lazy" decoding="async"></div><figcaption class="label" style="--lx:-2;--ly:700;--lw:145;background:var(--pink)">Bistrot de Sainté, Place Jean Jaurès</figcaption></figure>
+<a href="#" class="item sticker sticker--circle" data-page="Ateliers de brassage" data-speed="-0.09" data-align="l" style="--x:142;--y:5332;--w:362;--mw:100;z-index:300;--h:363;--rs:0deg;--rt:0deg;--sk:var(--cyan)" aria-label="Des ateliers de brassage pour toutes et tous — aller à la page Ateliers de brassage"><span class="sk-in"><span class="sk-shape"></span><span class="sk-text">Des<br>ateliers<br>de brassage<br>pour toutes<br>et tous</span></span><span class="sk-hint">→ Ateliers de brassage</span></a>
+<figure class="item photo" data-align="l" data-speed="0.03" style="--x:1188;--y:5352;--w:440;--mw:64;z-index:62;--ar:440/595"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Parc des Sports de Méons, Vestiaire N°2"><img src="img/p62.jpg" width="440" height="595" alt="Parc des Sports de Méons, Vestiaire N°2" loading="lazy" decoding="async"></div><figcaption class="label" style="--lx:429;--ly:84;--lw:142;background:var(--cyan)">Parc des Sports de Méons, Vestiaire N°2</figcaption></figure>
+<figure class="item photo" data-align="c" data-speed="0" style="--x:344;--y:5888;--w:1576;--mw:100;z-index:52;--ar:1576/1051"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Stockage des drêches, 15 rue Buffon"><img src="img/p52.jpg" width="1576" height="1051" alt="Stockage des drêches, 15 rue Buffon" loading="lazy" decoding="async"></div><figcaption class="label" style="--lx:362;--ly:1045;--lw:185;background:var(--yellow)">Stockage des drêches, 15 rue Buffon</figcaption></figure>
+<figure class="item biscotos" data-align="l" data-speed="-0.06" style="--x:860;--y:7036;--w:280;--mw:44;z-index:108;--ar:1/1"><img src="img/biscotos.png" width="280" height="280" alt="Autocollant Les Biscotos du Bagnard" loading="lazy"></figure>
+<a href="#" class="item sticker sticker--rect" data-page="La Brasserie" data-speed="-0.08" data-align="r" style="--x:1204;--y:6825;--w:463;--mw:100;z-index:300;--h:270;--rs:-3deg;--rt:-3deg;--sk:var(--peach)" aria-label="Une équipe de copains savants, de fous magiciens — aller à la page La Brasserie"><span class="sk-in"><span class="sk-shape"></span><span class="sk-text">Une équipe de<br>copains savants,<br>de fous magiciens</span></span><span class="sk-hint">→ La Brasserie</span></a>
+<figure class="item photo" data-align="r" data-speed="0.02" style="--x:114;--y:6810;--w:564;--mw:74;z-index:54;--ar:564/848"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Cuisine du Bistrot de Sainté, Place Jean Jaurès"><img src="img/p54.jpg" width="564" height="848" alt="Cuisine du Bistrot de Sainté, Place Jean Jaurès" loading="lazy" decoding="async"></div><figcaption class="label" style="--lx:-2;--ly:866;--lw:221;background:var(--peach)">Cuisine du Bistrot de Sainté, Place Jean Jaurès</figcaption></figure>
+<figure class="item photo" data-align="l" data-speed="-0.02" style="--x:917;--y:7384;--w:689;--mw:82;z-index:49;--ar:689/459"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : L’Entre Pots Café, Place Jules Guesde"><img src="img/p49.jpg" width="689" height="459" alt="L’Entre Pots Café, Place Jules Guesde" loading="lazy" decoding="async"></div><figcaption class="label" style="--lx:-1;--ly:480;--lw:155;background:var(--cyan)">L’Entre Pots Café, Place Jules Guesde</figcaption></figure>
+<figure class="item photo" data-align="r" data-speed="0.04" style="--x:1441;--y:7941;--w:327;--mw:58;z-index:48;--ar:327/489"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : 1er Mai, Amicale Laïque du Crêt de Roch"><img src="img/p48.jpg" width="327" height="489" alt="1er Mai, Amicale Laïque du Crêt de Roch" loading="lazy" decoding="async"></div><figcaption class="label" style="--lx:153;--ly:505;--lw:176;background:var(--pink)">1er Mai, Amicale Laïque du Crêt de Roch</figcaption></figure>
+<figure class="item photo" data-align="l" data-speed="0" style="--x:50;--y:7998;--w:1058;--mw:96;z-index:74;--ar:1058/705"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Journée Zythotypo, 15 rue Buffon"><img src="img/p74.jpg" width="1058" height="705" alt="Journée Zythotypo, 15 rue Buffon" loading="lazy" decoding="async"></div><figcaption class="label" style="--lx:920;--ly:721;--lw:140;background:var(--pink)">Journée Zythotypo, 15 rue Buffon</figcaption></figure>
+<a href="#" class="item sticker sticker--ellipse" data-page="Ateliers de brassage" data-speed="-0.1" data-align="l" style="--x:864;--y:8113;--w:426;--mw:100;z-index:300;--h:356;--rs:-14deg;--rt:-14deg;--sk:var(--yellow)" aria-label="Une maîtrise artisanale et le goût des expériences — aller à la page Ateliers de brassage"><span class="sk-in"><span class="sk-shape"></span><span class="sk-text">Une maîtrise<br>artisanale<br>et le goût des<br>expériences</span></span><span class="sk-hint">→ Ateliers de brassage</span></a>
+<figure class="item photo" data-align="r" data-speed="0.03" style="--x:408;--y:8930;--w:379;--mw:62;z-index:3;--ar:379/568"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Photo de la Brasserie Stéphanoise"><img src="img/p3.jpg" width="379" height="568" alt="Photo de la Brasserie Stéphanoise" loading="lazy" decoding="async"></div></figure>
+<figure class="item photo" data-align="l" data-speed="-0.02" style="--x:1075;--y:9214;--w:811;--mw:88;z-index:95;--ar:811/540"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Photo de la Brasserie Stéphanoise"><img src="img/p95.jpg" width="811" height="540" alt="Photo de la Brasserie Stéphanoise" loading="lazy" decoding="async"></div></figure>
+<figure class="item photo" data-align="r" data-speed="0" style="--x:164;--y:9848;--w:565;--mw:72;z-index:53;--ar:565/848"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Photo de la Brasserie Stéphanoise"><img src="img/p53.jpg" width="565" height="848" alt="Photo de la Brasserie Stéphanoise" loading="lazy" decoding="async"></div></figure>
+<figure class="item photo" data-align="l" data-speed="0.04" style="--x:1219;--y:9863;--w:365;--mw:58;z-index:57;--ar:365/546"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Photo de la Brasserie Stéphanoise"><img src="img/p57.jpg" width="365" height="546" alt="Photo de la Brasserie Stéphanoise" loading="lazy" decoding="async"></div></figure>
+<figure class="item photo" data-align="r" data-speed="-0.02" style="--x:315;--y:10668;--w:834;--mw:90;z-index:90;--ar:834/556"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Photo de la Brasserie Stéphanoise"><img src="img/p90.jpg" width="834" height="556" alt="Photo de la Brasserie Stéphanoise" loading="lazy" decoding="async"></div></figure>
+<figure class="item photo" data-align="l" data-speed="0.03" style="--x:1411;--y:10881;--w:359;--mw:56;z-index:89;--ar:359/398"><div class="frame" tabindex="0" role="button" aria-label="Agrandir : Photo de la Brasserie Stéphanoise"><img src="img/p89.jpg" width="359" height="398" alt="Photo de la Brasserie Stéphanoise" loading="lazy" decoding="async"></div></figure>
+    </div>
+  </section>
+
+  <section class="intro" id="bref" aria-labelledby="bref-titre">
+    <div>
+      <span class="eyebrow">La brasserie en bref</span>
+      <h2 id="bref-titre">Brassée à Sainté, bue dans le quartier</h2>
+      <p>Depuis 2014, La Brasserie Stéphanoise brasse au 15 rue Buffon des bières bio, artisanales et indépendantes, avec des ingrédients français à 98 %.</p>
+      <p>On livre nos fûts et nos bouteilles aux bars, restaurants, cavistes et lieux de vie de Saint-Étienne et des alentours, en circuit court. Et pour celles et ceux qui veulent mettre les mains dans la cuve, on organise des ateliers de brassage.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#" data-page="Les bières">Découvrir nos bières <span class="arr" aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href="#" data-page="Ateliers de brassage">Réserver un atelier <span class="arr" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <ul class="facts" aria-label="Chiffres clés">
+      <li><b>2014</b><span>Née et calée dans Sainté</span></li>
+      <li><b>98&nbsp;%</b><span>d’ingrédients français, en bio</span></li>
+      <li><b>15</b><span>rue Buffon, notre brasserie</span></li>
+    </ul>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-in">
+    <div>
+      <img class="logo-w" src="img/logo-blanc.png" width="275" height="70" alt="La Brasserie Stéphanoise">
+      <p>Bière artisanale, indépendante et locale.</p>
+    </div>
+    <div>
+      <h3>Nous trouver</h3>
+      <address>15 rue Buffon<br>Saint-Étienne</address>
+      <p><span class="todo">Horaires à compléter</span></p>
+    </div>
+    <div>
+      <h3>Nous écrire</h3>
+      <button class="copy" type="button" data-copy="contact@labrasseriestephanoise.com" aria-label="Copier l’adresse e-mail">contact@labrasseriestephanoise.com <span aria-hidden="true">⧉</span></button>
+      <div class="socials">
+        <button type="button" data-page="Instagram">Instagram</button>
+        <button type="button" data-page="Facebook">Facebook</button>
+      </div>
+    </div>
+    <div class="news">
+      <h3>La lettre de la brasserie</h3>
+      <form id="news-form" novalidate>
+        <label for="news-email">Nouvelles bières, ateliers et fêtes, une fois par mois.</label>
+        <input id="news-email" name="email" type="email" placeholder="votre@email.fr" autocomplete="email" required>
+        <button type="submit">S’inscrire</button>
+      </form>
+      <p class="msg" id="news-msg" role="status"></p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>L’abus d’alcool est dangereux pour la santé, à consommer avec modération.</span>
+    <nav aria-label="Informations légales">
+      <a href="#" data-page="Mentions légales">Mentions légales</a>
+      <a href="#" data-page="Confidentialité">Confidentialité</a>
+      <a href="#" data-page="CGV">CGV</a>
+    </nav>
+  </div>
+</footer>
+
+<div class="cursor" id="cursor" aria-hidden="true">Voir</div>
+<button class="to-top" id="to-top" type="button" aria-label="Revenir en haut">↑<br>Haut</button>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<button class="demo-btn" id="demo-btn" type="button" aria-expanded="false" aria-controls="demo-panel">Propositions</button>
+<div class="demo-panel" id="demo-panel" hidden>
+  <h2>Propositions</h2>
+  <p>Activez ou coupez chaque effet pour comparer. Ce panneau ne sert qu’à la démo, il disparaîtra du site final.</p>
+  <div class="opt"><label for="o-slide">Diaporama en tête</label><input class="switch" type="checkbox" id="o-slide" data-opt="slide" checked><small>La grande photo fait défiler les 15 photos cachées dans la maquette.</small></div>
+  <div class="opt"><label for="o-float">Pastilles qui flottent</label><input class="switch" type="checkbox" id="o-float" data-opt="float" checked><small>Léger balancement permanent, petit rebond au survol.</small></div>
+  <div class="opt"><label for="o-drag">Pastilles à décoller</label><input class="switch" type="checkbox" id="o-drag" data-opt="drag" checked><small>On peut les attraper et les déplacer à la souris. Double-clic pour les remettre en place.</small></div>
+  <div class="opt"><label for="o-para">Profondeur au défilement</label><input class="switch" type="checkbox" id="o-para" data-opt="para" checked><small>Pastilles et photos glissent à des vitesses différentes (parallaxe).</small></div>
+  <div class="opt"><label for="o-reveal">Apparition des photos</label><input class="switch" type="checkbox" id="o-reveal" data-opt="reveal" checked><small>Les photos montent en fondu en entrant dans l’écran.</small></div>
+  <div class="opt"><label for="o-cursor">Curseur « Voir »</label><input class="switch" type="checkbox" id="o-cursor" data-opt="cursor" checked><small>Une pastille rose suit la souris sur les photos.</small></div>
+  <p class="note">Police des pastilles : Fredoka (gratuite) en attendant la licence de la police Ohno Softie.</p>
+</div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo agrandie" aria-hidden="true">
+  <img class="lb-img" id="lb-img" alt="">
+  <div class="lb-meta"><span class="lb-cap" id="lb-cap"></span><span id="lb-count"></span></div>
+  <button class="lb-btn lb-close" id="lb-close" type="button" aria-label="Fermer">✕</button>
+  <button class="lb-btn lb-prev" id="lb-prev" type="button" aria-label="Photo précédente">←</button>
+  <button class="lb-btn lb-next" id="lb-next" type="button" aria-label="Photo suivante">→</button>
+</div>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const root = document.documentElement;
+  const desktop = matchMedia('(min-width: 900px)');
+  const fine = matchMedia('(hover: hover) and (pointer: fine)');
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Options de démo, mémorisées pour ce navigateur seulement */
+  const opts = { slide: true, float: true, drag: true, para: true, reveal: true, cursor: true };
+  try { Object.assign(opts, JSON.parse(localStorage.getItem('bs-demo-opts') || '{}')); } catch (e) {}
+  if (calm) { opts.float = false; opts.para = false; opts.reveal = false; }
+  const save = () => { try { localStorage.setItem('bs-demo-opts', JSON.stringify(opts)); } catch (e) {} };
+
+  /* Message éphémère */
+  const toast = $('#toast'); let tt;
+  const say = (msg) => { toast.textContent = msg; toast.classList.add('is-on'); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove('is-on'), 2600); };
+
+  /* Liens vers les pages pas encore dessinées */
+  let dragMoved = false;
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('[data-page]');
+    if (!a) return;
+    e.preventDefault();
+    if (dragMoved) { dragMoved = false; return; }
+    closeMenu();
+    say(`Page « ${a.dataset.page} » : à venir avec les prochaines maquettes`);
+  });
+
+  /* En-tête */
+  const header = $('.site-header'), toTop = $('#to-top');
+  const onScrollUi = () => {
+    const y = scrollY;
+    header.classList.toggle('is-scrolled', y > 30);
+    toTop.classList.toggle('is-on', y > innerHeight * 1.2);
+  };
+  toTop.addEventListener('click', () => scrollTo({ top: 0, behavior: calm ? 'auto' : 'smooth' }));
+
+  /* Menu mobile */
+  const burger = $('#burger'), mm = $('#mobile-menu');
+  function closeMenu() { document.body.classList.remove('menu-open'); burger.setAttribute('aria-expanded', 'false'); burger.setAttribute('aria-label', 'Ouvrir le menu'); mm.setAttribute('aria-hidden', 'true'); }
+  burger.addEventListener('click', () => {
+    const open = !document.body.classList.contains('menu-open');
+    document.body.classList.toggle('menu-open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    mm.setAttribute('aria-hidden', String(!open));
+  });
+  $$('a[href="#top"]', mm).forEach(a => a.addEventListener('click', closeMenu));
+
+  /* Diaporama de tête */
+  const hero = $('.hero'), slides = $$('.slide', hero), count = $('.hero-count', hero), bar = $('.hero-progress i', hero);
+  let cur = 0, heroT0 = performance.now(), heroPaused = false; const DUR = 3800;
+  const pad = n => String(n).padStart(2, '0');
+  const showSlide = (i) => { slides[cur].classList.remove('is-on'); cur = (i + slides.length) % slides.length; slides[cur].classList.add('is-on'); count.textContent = `${pad(cur + 1)} / ${pad(slides.length)}`; heroT0 = performance.now(); };
+  hero.addEventListener('mouseenter', () => heroPaused = true);
+  hero.addEventListener('mouseleave', () => { heroPaused = false; heroT0 = performance.now(); });
+  const heroTick = (t) => {
+    if (opts.slide && !heroPaused && !document.hidden) {
+      const p = Math.min((t - heroT0) / DUR, 1); bar.style.width = (p * 100) + '%';
+      if (p >= 1) showSlide(cur + 1);
+    } else if (heroPaused) heroT0 = t - (parseFloat(bar.style.width) || 0) / 100 * DUR;
+    requestAnimationFrame(heroTick);
+  };
+  requestAnimationFrame(heroTick);
+
+  /* Pile Couriot : on fait passer la photo du dessus derrière */
+  const stackFrame = $('.stack .frame');
+  const cycle = () => { const first = stackFrame.querySelector('img'); stackFrame.insertBefore(first, stackFrame.querySelector('.stack-hint')); };
+  stackFrame.addEventListener('click', cycle);
+  stackFrame.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cycle(); } });
+
+  /* Visionneuse */
+  const frames = $$('.photo:not(.stack) .frame');
+  const lb = $('#lightbox'), lbImg = $('#lb-img'), lbCap = $('#lb-cap'), lbCount = $('#lb-count');
+  let li = 0, lastFocus = null;
+  const entry = (f) => { const img = f.querySelector('.slide.is-on') || f.querySelector('img'); const cap = f.parentElement.querySelector('.label'); return { src: img.currentSrc || img.src, alt: img.alt, cap: cap ? cap.textContent : 'La Brasserie Stéphanoise' }; };
+  const lbShow = (i) => { li = (i + frames.length) % frames.length; const e = entry(frames[li]); lbImg.src = e.src; lbImg.alt = e.alt; lbCap.textContent = e.cap; lbCount.textContent = `${pad(li + 1)} / ${pad(frames.length)}`; };
+  const lbOpen = (i) => { lastFocus = document.activeElement; lbShow(i); lb.classList.add('is-on'); lb.setAttribute('aria-hidden', 'false'); heroPaused = true; $('#lb-close').focus(); };
+  const lbClose = () => { lb.classList.remove('is-on'); lb.setAttribute('aria-hidden', 'true'); heroPaused = false; if (lastFocus) lastFocus.focus(); };
+  frames.forEach((f, i) => {
+    f.addEventListener('click', () => lbOpen(i));
+    f.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); lbOpen(i); } });
+  });
+  $('#lb-close').addEventListener('click', lbClose);
+  $('#lb-prev').addEventListener('click', () => lbShow(li - 1));
+  $('#lb-next').addEventListener('click', () => lbShow(li + 1));
+  lb.addEventListener('click', e => { if (e.target === lb) lbClose(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { if (lb.classList.contains('is-on')) lbClose(); closeMenu(); }
+    if (!lb.classList.contains('is-on')) return;
+    if (e.key === 'ArrowLeft') lbShow(li - 1);
+    if (e.key === 'ArrowRight') lbShow(li + 1);
+  });
+  let sx = null;
+  lb.addEventListener('touchstart', e => sx = e.touches[0].clientX, { passive: true });
+  lb.addEventListener('touchend', e => { if (sx === null) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) lbShow(li + (dx < 0 ? 1 : -1)); sx = null; });
+
+  /* Curseur « Voir » */
+  const cursor = $('#cursor');
+  document.addEventListener('pointermove', e => { cursor.style.setProperty('--cx', e.clientX + 'px'); cursor.style.setProperty('--cy', e.clientY + 'px'); });
+  $$('.frame').forEach(f => {
+    f.addEventListener('pointerenter', () => { if (opts.cursor && fine.matches) { cursor.textContent = f.closest('.stack') ? 'Feuilleter' : 'Voir'; cursor.classList.add('is-on'); } });
+    f.addEventListener('pointerleave', () => cursor.classList.remove('is-on'));
+  });
+
+  /* Pastilles à décoller */
+  $$('.sticker').forEach(s => {
+    let start = null;
+    s.addEventListener('pointerdown', e => {
+      if (!opts.drag || !desktop.matches || e.button !== 0) return;
+      start = { x: e.clientX, y: e.clientY, dx: parseFloat(s.style.getPropertyValue('--dx')) || 0, dy: parseFloat(s.style.getPropertyValue('--dy')) || 0, moved: false };
+      s.setPointerCapture(e.pointerId);
+    });
+    s.addEventListener('pointermove', e => {
+      if (!start) return;
+      const mx = e.clientX - start.x, my = e.clientY - start.y;
+      if (!start.moved && Math.hypot(mx, my) < 5) return;
+      start.moved = true; s.classList.add('is-dragging');
+      s.style.setProperty('--dx', (start.dx + mx) + 'px'); s.style.setProperty('--dy', (start.dy + my) + 'px');
+    });
+    const end = () => { if (!start) return; dragMoved = start.moved; s.classList.remove('is-dragging'); start = null; if (dragMoved) setTimeout(() => dragMoved = false, 50); };
+    s.addEventListener('pointerup', end); s.addEventListener('pointercancel', end);
+    s.addEventListener('dblclick', e => { e.preventDefault(); s.style.removeProperty('--dx'); s.style.removeProperty('--dy'); });
+    s.addEventListener('dragstart', e => e.preventDefault());
+  });
+
+  /* Parallaxe */
+  const movers = $$('.collage .item').filter(el => parseFloat(el.dataset.speed));
+  let ticking = false;
+  const parallax = () => {
+    ticking = false;
+    const on = opts.para && desktop.matches, vh = innerHeight;
+    movers.forEach(el => {
+      if (!on) { el.style.removeProperty('--py'); return; }
+      const r = el.getBoundingClientRect();
+      if (r.bottom < -400 || r.top > vh + 400) return;
+      const off = (r.top + r.height / 2 - vh / 2) * parseFloat(el.dataset.speed);
+      el.style.setProperty('--py', off.toFixed(1) + 'px');
+    });
+  };
+  addEventListener('scroll', () => { onScrollUi(); if (!ticking) { ticking = true; requestAnimationFrame(parallax); } }, { passive: true });
+  addEventListener('resize', parallax);
+
+  /* Apparition au défilement (les éléments déjà visibles ne sont jamais cachés) */
+  const items = $$('.collage .item');
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.remove('is-hidden'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -8% 0px' }) : null;
+  const armReveal = () => {
+    if (!io) return;
+    items.forEach(el => { const r = el.getBoundingClientRect(); if (r.top > innerHeight) { el.classList.add('is-hidden'); io.observe(el); } });
+  };
+
+  /* Application des options */
+  const apply = () => {
+    root.classList.toggle('no-slideshow', !opts.slide);
+    root.classList.toggle('no-float', !opts.float);
+    root.classList.toggle('drag-on', opts.drag);
+    root.classList.toggle('reveal-on', opts.reveal);
+    root.classList.toggle('has-cursor', opts.cursor && fine.matches);
+    if (!opts.slide) { bar.style.width = '0'; }
+    if (!opts.drag) $$('.sticker').forEach(s => { s.style.removeProperty('--dx'); s.style.removeProperty('--dy'); });
+    if (!opts.cursor) cursor.classList.remove('is-on');
+    parallax();
+  };
+  $$('.switch').forEach(sw => {
+    sw.checked = !!opts[sw.dataset.opt];
+    sw.addEventListener('change', () => { opts[sw.dataset.opt] = sw.checked; save(); apply(); if (sw.dataset.opt === 'reveal' && sw.checked) armReveal(); });
+  });
+  const dBtn = $('#demo-btn'), dPanel = $('#demo-panel');
+  dBtn.addEventListener('click', () => { dPanel.hidden = !dPanel.hidden; dBtn.setAttribute('aria-expanded', String(!dPanel.hidden)); });
+
+  /* Copier l'e-mail */
+  $$('[data-copy]').forEach(b => b.addEventListener('click', () => {
+    const t = b.dataset.copy;
+    const ok = () => say('Adresse copiée');
+    try { navigator.clipboard.writeText(t).then(ok).catch(() => { selectText(b); say('Adresse sélectionnée, copiez-la avec Ctrl+C'); }); }
+    catch (e) { selectText(b); say('Adresse sélectionnée, copiez-la avec Ctrl+C'); }
+  }));
+  function selectText(el) { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+
+  /* Lettre d'information (démo, rien n'est envoyé) */
+  $('#news-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const v = $('#news-email').value.trim(), msg = $('#news-msg');
+    msg.textContent = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? 'Merci ! (démo : l’inscription sera branchée sur votre outil d’e-mailing)' : 'Cette adresse ne semble pas complète, vérifiez-la.';
+  });
+
+  apply(); onScrollUi(); if (opts.reveal) armReveal();
+})();
+</script>
+</body>
+</html>
